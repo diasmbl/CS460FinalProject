@@ -1,0 +1,70 @@
+name: Autograding Tests
+'on':
+- push
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup Java 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+        cache: 'maven'
+    - name: Resolve Autograder Maven Dependencies
+      run: mvn -f .autograde/pom.xml dependency:go-offline dependency:resolve-plugins
+    - name: Resolve Project Maven Dependencies
+      run: test -f pom.xml && mvn dependency:go-offline dependency:resolve-plugins || true
+
+    - name: "Rubric: Check coding standard"
+      id: checkstyle
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: "Rubric: Check coding standard"
+        command: mvn checkstyle:check
+        timeout: 10
+        max-score: 10
+        
+    - name: "Rubric: Project Group Name set to edu.ensign.cs460"
+      id: testgroupid
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: "Rubric: Project Group Name set to edu.ensign.cs460"
+        command: mvn -f .autograde/pom.xml -Dtest=PomXmlTest#testGroupId test
+        timeout: 10
+        max-score: 10
+
+  
+
+    - name: "Rubric: Application runs successfully"
+      id: testappruns
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: "Rubric: Application runs successfully"
+        command: SPRING_MAIN_WEBAPPLICATIONTYPE=NONE mvn package spring-boot:run
+        timeout: 30
+        max-score: 30
+      env:  # Define environment variables for this specific step
+          SPRING_MAIN_WEBAPPLICATIONTYPE: NONE 
+          # MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: '*'
+          # MANAGEMENT_ENDPOINT_SHUTDOWN_ENABLED: 'true'
+          # ENDPOINTS_SHUTDOWN_ENABLED: 'true'
+
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TESTAPPRUNS_RESULTS: "${{steps.testappruns.outputs.result}}"
+        TESTGROUPID_RESULTS: "${{steps.testgroupid.outputs.result}}"
+        CHECKSTYLE_RESULTS: "${{steps.checkstyle.outputs.result}}"
+      with:
+        runners: >-
+          testgroupid, 
+          testappruns,
+          checkstyle

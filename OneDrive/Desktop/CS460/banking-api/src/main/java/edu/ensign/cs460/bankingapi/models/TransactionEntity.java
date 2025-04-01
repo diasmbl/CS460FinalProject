@@ -1,6 +1,6 @@
 package edu.ensign.cs115.bankingapplication.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 

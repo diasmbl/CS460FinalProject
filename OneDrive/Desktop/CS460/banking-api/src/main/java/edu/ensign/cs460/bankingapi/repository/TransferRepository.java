@@ -1,6 +1,6 @@
-package edu.ensign.cs115.bankingapplication.repository;
+package edu.ensign.cs460.bankingapi.repository;
 
-import edu.ensign.cs115.bankingapplication.models.TransferEntity;
+import edu.ensign.cs460.bankingapi.models.TransferEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

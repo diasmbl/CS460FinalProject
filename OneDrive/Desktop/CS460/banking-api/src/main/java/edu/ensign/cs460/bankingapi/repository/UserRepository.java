@@ -1,6 +1,6 @@
-package edu.ensign.cs115.bankingapplication.repository;
+package edu.ensign.cs460.bankingapi.repository;
 
-import edu.ensign.cs115.bankingapplication.models.User;
+import edu.ensign.cs460.bankingapi.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

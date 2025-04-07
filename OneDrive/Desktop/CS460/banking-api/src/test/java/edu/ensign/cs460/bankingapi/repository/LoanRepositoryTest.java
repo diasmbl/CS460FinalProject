@@ -1,6 +1,6 @@
-package edu.ensign.cs115.bankingapplication.repository;
+package edu.ensign.cs460.bankingapi.repository;
 
-import edu.ensign.cs115.bankingapplication.models.LoanEntity;
+import edu.ensign.cs460.bankingapi.models.LoanEntity;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

@@ -1,4 +1,4 @@
-package edu.ensign.cs115.bankingapplication.models;
+package edu.ensign.cs460.bankingapi.models;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

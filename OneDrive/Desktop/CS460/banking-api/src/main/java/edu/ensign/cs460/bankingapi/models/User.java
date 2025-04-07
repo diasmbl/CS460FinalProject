@@ -1,4 +1,4 @@
-package edu.ensign.cs115.bankingapplication.models;
+package edu.ensign.cs460.bankingapi.models;
 
 import jakarta.persistence.*;
 import java.util.Date;
@@ -9,6 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "USER")
 public class User {
+
     // Unique identifier for the User
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +41,7 @@ public class User {
     private Date registrationDate;
 
     // No-argument constructor
-    public User() {
-    }
+    public User() {}
 
     // All-argument constructor
     public User(Long userId, String username, String password, String email,
@@ -55,12 +55,22 @@ public class User {
         this.registrationDate = registrationDate;
     }
 
-    // Getters and setters for all fields
+    // Getters and setters
     public Long getUserId() {
         return userId;
     }
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    // Alias getter for compatibility
+    public Long getId() {
+        return this.userId;
+    }
+
+    // Alias setter for compatibility
+    public void setId(Long id) {
+        this.userId = id;
     }
 
     public String getUsername() {
